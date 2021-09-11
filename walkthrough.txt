@@ -1,10 +1,12 @@
->>>MOVIE TICKETS UPGRADE EXPLANATION
+>>>MOVIE TICKETS REFACTORING EXPLANATION
 
-The purpose of this exercise is to take a previous exercise from Ch7 of the No Starch Python Crash Course Book (2ed), and apply new concepts learned after the fact.
+The purpose of this exercise is to take a previous exercise from Ch7 of the No Starch Python Crash Course Book (2ed), and refactor with new concepts.
+
+Refactoring is when we take a program and improve the code, while maintaing the external behavior.
 
 I will be providing a walkthrough for anyone that might want to follow this process step by step.
 
-But, mostly including this to help me learn and actualize each step of the process.
+But, I am mostly including this to help me learn and actualize each step of my thought process.
 
 This way, I can focus on not just the how of my code, but the why.
 
@@ -86,6 +88,103 @@ while active:
         print(f"\n\nThank you for choosing Runway Theaters! Enjoy the movie!")
         active = False
 
-As we can see this file is a bit too long, and the logic can be broken up into methods.
+As we can see this file is too long, and the logic can be broken up into methods.
 
-Let's switch branches and get started!
+Let's switch branches and get started on refactoring this mess!
+
+We used to the git checkout -b command to simultaneously create a new branch and switch two it.
+
+The first thing we want to do is begin break down the logic of Python does when the user inputs an integer, so we name the branch integer_input.
+
+Next, we want to create a module so that we can get some of the logic out of our main file.
+
+In our first attempt we bit off more than we could chew, so let's break it down and go step by step.
+
+First we will write the function that will run with a number that is less than 3.
+
+For now, we are looking at price_calculator_2.py:
+
+class PriceCalculator(): #1
+    '''Calculate ticket price.'''
+
+    def __init__(self, age): #2
+        '''Initialize attributes.'''
+        self.age = age
+
+    def younger_than_3(self, age): #3
+        '''Print message and add no price.'''
+        return f"Your {self.age} year old child gets free admission!" #4
+
+The first step is to create the class for our module, which we will call PriceCalculator().
+
+The next step we need to initalize our attributes for the class using an __init__() method.
+
+We then assign the variable age, the attribute of self, so that we can use it in other methods.
+
+Next we define our first method, younger_than_3().
+
+Because children under 3 are free we do not have to calculate any sort of price.
+
+All we have to do is return the message that the child is free.
+
+Now that we've written our simple function, let's make sure it works as we've expected!
+
+Taking a look at our test module, price_calculator_test.py:
+
+import unittest #1
+from price_calculator_2 import PriceCalculator #1.5
+
+class PriceCalculatorTest(unittest.TestCase): #2
+    '''Make sure our price calculator works'''
+
+    def test_younger_than_3(self): #3
+        '''Check to make sure that function prints correctly'''
+        age = PriceCalculator(2) #4
+        child = age.younger_than_3(2) #5
+        self.assertEqual(child, 'Your 2 year old child '
+            'gets free admission!') #6
+
+if __name__ == '__main__': #7
+    unittest.main()
+
+First thing we need to do is import the unittest Python module for testing.
+
+Next we need to import our PriceCalculator class from price_calculator_2.py.
+
+We do this by using the from file import class format.
+
+Now we can set up our test class, and we have to make sure that we are inheriting TestCase from the unittest module.
+
+At step 3, we define our first test method, test_younger_than_3(), which passes the attribute self.
+
+NOTE: The first word of the method must be test, or no test will be run.
+
+The next step is to set up an instance of PriceCalculator and call it age.
+
+Then, we call the younger_than_3() method, pass it 2, and assign the result to child.
+
+Because we return the string f'Your {self.age} year old child gets free admission!', we expect the out put to be:
+
+'Your 2 year old child gets free admission!'
+
+When we call assertEqual our second argument is the expected result, and the first argument is the result of the method call.
+
+Before we can run the test, we have to tell Python to run it automatically when the test file is run as the main file at 7.
+
+Python automatically assigns a __name__ to a file when a program is run. 
+
+If it is imported, then it will not be assigned the __name__, '__main__'.
+
+If the program is the main file, then the test will run.
+
+Let's check the results of our test:
+
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+
+Bingo! We are looking good so far. 
+
+Let's bring in another ticket pricing tier and see how we do.

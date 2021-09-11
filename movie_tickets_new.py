@@ -15,6 +15,7 @@ while active:
     ticket = 0
 
     # integer input
+    answer = PriceCalculator(age)
     if age.isnumeric() == True:
         age = int(age)
         # younger than 3

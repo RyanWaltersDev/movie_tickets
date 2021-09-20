@@ -187,4 +187,155 @@ OK
 
 Bingo! We are looking good so far. 
 
-Let's bring in another ticket pricing tier and see how we do.
+Let's bring in another ticket pricing tier:
+
+class PriceCalculator():
+    --snip--
+
+    def younger_than_3(self, age, ticket=0):
+        --snip--
+
+    def ages_3_to_12(self, age, ticket=0):
+        '''Return ticket price and message for ages 3 to 12.'''
+        ticket = 10
+        return (ticket, f"The ticket price for a {age} year old is $10!")
+
+    def ages_13_to_64(self, age, ticket=0):
+        '''Return ticket price and message for ages 13 to 64.'''
+        ticket = 15
+        return(ticket, f"The ticket price for {age} year olds is $15!")
+
+    def ages_65_and_older(self, age, ticket=0):
+        '''Return ticket price and message for ages 65 and up.'''
+        ticket = 12
+        return(ticket, f"The ticket price for senior citizens is $12!")
+
+So for each method we will pass three arguments, self, age, and ticket.
+
+Notice how we set ticket to the default value of 0,
+
+This is because we dont want to pass ticket when we call the method, but rather return the new value that we have assigned it to.
+
+So we set ticket to equal our price for each tier and then return a tuple.
+
+In order to return multiple values to a function we have to return them as a tuple, list, or dictionary.
+
+The tuple we return has two values, the ticket price, and a message to be printed to the user.
+
+Next, we should build some tests to make sure all of this works:
+
+class PriceCalculatorTest(unittest.Testcase):
+    --snip--
+
+    def test_ages_3_to_12(self):
+        '''Check funtion formula and return message.'''
+        instance = PriceCalculator()
+        customer = instance.ages_3_to_12(12)
+        self.assertEqual(customer, (10, 
+            "The ticket price for a 12 year old is $10!"))
+
+
+    def test_ages_13_to_64(self):
+        '''Check function formula and return message.'''
+        instance = PriceCalculator()
+        customer = instance.ages_13_to_64(25)
+        self.assertEqual(customer, (15, 
+            "The ticket price for 25 year olds is $15!"))
+
+    def test_ages_65_and_older(self):
+        '''Check function formula and return message.'''
+        instance = PriceCalculator()
+        customer = instance.ages_65_and_older(76)
+        self.assertEqual(customer, (12,
+            "The ticket price for senior citizens is $12!"))
+
+These tests are set up in the exact same way, only changing the method call and the expected result.
+
+First we define the test method and pass it the argument self.
+
+Next we create an instance of PriceCalculator(),
+
+And then we call the method that we are testing and assign the results to the variable customer.
+
+Finally we use the assertEqual() test to compare the tuple to our expected result.
+
+Let's see how our tests do:
+
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+
+Looks like all 4 of our tests work and we can proceed to the next method.
+
+What we want to do now is form some of the if statement logic for Python to determine which of these functions to call, based on the user input.
+
+Here's what we came up with:
+
+    def int_input_logic(self, age, tickets=[]):
+        '''Return function based on age input and append ticket list.'''
+        age = int(age)
+        if age < 3:
+            return self.younger_than_3(age)
+        elif age >= 3 and age <= 12:
+            result = self.ages_3_to_12(age)
+            tickets.append(result[0])
+            return tickets, result[0], result[1]
+        elif age > 12 and age < 65:
+            result = self.ages_13_to_64(age)
+            tickets.append(result[0])
+            return tickets, result[0], result[1]
+        elif age >= 65 and age <=120:
+            result = self.ages_65_and_older(age)
+            tickets.append(result[0])
+            return tickets, result[0], result[1]
+        else:
+            return (0, [], "Please enter a valid age.")
+
+Notice the difference in the arguments passed for this method.
+
+First, we no longer pass the ticket bc we expect this value to be returned from our method calls.
+
+Next, we want to pass a new parameter, tickets, and set it equal to an empty list.
+
+This is so that we can calculate ticket totals later, and it is easiest to do this now.
+
+Because our variable age is going to be compared to other integers, we should make sure that it is an integer and not a string.
+
+Next we open our if statement.
+
+If the age is less than 3, we return our younger_than_3 method call, and pass the age.
+
+If the age is between 3 and 12 (or equal to), we move to the next tier.
+
+First we need to call the method and assign the results to a variable, so that we can append our list with the ticket price (which is stored in the first index of the tuple).
+
+Then we append the list tickets with the ticket price from the result of our method call.
+
+Finally, in each code block, we return a new tuple that contains out values in the following order: tickets[], ticket, string
+
+Let's write a test for this method to make sure everything works:
+
+    def test_int_input_logic(self):
+        '''Check tuple output of function.'''
+        instance = PriceCalculator()
+        tickets, ticket, string = instance.int_input_logic(12)
+        self.assertEqual(tickets, [10])
+        self.assertEqual(ticket, 10)
+        self.assertEqual(string, "The ticket price for a 12 year old is $10!")
+
+After we define the test method and pass it self, we can start building our test.
+
+First thing we want to do is create an instance of PriceCalculator.
+
+Next by separating each variable by commas, we can call our int_input_logic() method and assign each part of the tuple to a variable respectively.
+
+Finally we use the assertEqual method, this time for each part of the tuple, to make sure that each respective variable is correct:
+
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.000s
+
+OK
+

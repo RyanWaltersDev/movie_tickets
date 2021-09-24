@@ -339,3 +339,89 @@ Ran 5 tests in 0.000s
 
 OK
 
+Next, we need to build the method that will handle the user input when they input a string.
+
+Before moving on, we also changed the return string on each method to take the ticket variable.
+
+This way, it will be much easier to change in the future without encoutnering trouble.
+
+Here's our veteran method, which will be called in the input logic method for our strings:
+
+    def veteran(self, age, ticket=0):
+        '''Return ticket price and message for veterans'''
+        ticket = 8
+        return(ticket, 
+            f"Thank you for your service. Your ticket price is ${ticket}!")
+
+As you can see, this is pretty much the same as the methods before it, except for the ticket price and the method being slightly different.
+
+Now, let's turn our attention to the string_input_logic method:
+
+    def string_input_logic(self, age, tickets=[]):
+        '''Veteran and invalid response input logic.'''
+        if age.title() == 'Veteran':
+            result = self.veteran(age)
+            tickets.append(result[0])
+            return tickets, result[0], result[1]
+        else:
+            return ([], 0, "Please enter a valid response.")
+
+Like the int_input_logic method before, we want to take tickets as a parameter and set it equal to an empty list so that we can append it with the appropriate ticket value.
+
+Then we check to see if the user entered 'Veteran' (or 'veteran'), and then return the appropriate tuple.
+
+If the user enters any other string then it will return an empty list, 0, and a message asking the user to enter a valid response.
+
+Let's build some tests to make sure this stuff works.
+
+The first test we want to build will check to make sure that the veteran method returns what we need it to:
+
+    def test_veteran(self):
+        '''Check function formula and return message.'''
+        instance = PriceCalculator()
+        customer = instance.veteran('veteran')
+        self.assertEqual(customer, (8, 
+            "Thank you for your service. Your ticket price is $8!"))
+
+After defining this method and passing it self, we create an instance of PriceCalculator.
+
+Then we call the veteran method and pass it the string 'veteran' (lowercase so that we can make sure our .title() method works).
+
+Finally, we check the result of our method call against our expected result and make sure that it passes.
+
+Next, we want to check and make sure we have the properly returned tuple from our string_input_logic:
+
+    def test_vet_string_input_logic(self):
+        '''Check tuple return of function.'''
+        instance = PriceCalculator()
+        tickets, ticket, string = instance.string_input_logic('veteran')
+        self.assertEqual(tickets, [8])
+        self.assertEqual(ticket, 8)
+        self.assertEqual(string, 
+            "Thank you for your service. Your ticket price is $8!")
+
+Like the others, we start by creating an instance of PriceCalculator().
+
+Then we get ready to test each value in the tuple individually by assigning them respective variables when we call the string_input_logic method and pass it 'veteran'.
+
+After doing so, we can run an assertEqual() test on each.
+
+The last tests that we might want to run after building these input_logic methods is to test the invalid response parts of our if statements, which returns empty values and a message asking the user to enter a valid response.
+
+Let's take a closer look:
+
+    def test_invalid_int_input_logic(self):
+        '''Check tuple when invalid integer entered.'''
+        instance = PriceCalculator()
+        response = instance.int_input_logic(500)
+        self.assertEqual(response, ([], 0, "Please enter a valid age."))
+
+This test is similar to the others, except when we call the method, we purposefully put a ridiculous answer to make sure that our method treats the invalid response as we expect it to.
+
+The other invalid response test is essentially the same but with the string_input_logic() method:
+
+    def test_invalid_string_input_logic(self):
+        '''Check tuple when invalid string entered.'''
+        instance = PriceCalculator()
+        response = instance.string_input_logic('blah')
+        self.assertEqual(response, ([], 0, "Please enter a valid response."))

@@ -14,22 +14,23 @@ class PriceCalculator:
     def ages_3_to_12(self, age, ticket=0):
         '''Return ticket price and message for ages 3 to 12.'''
         ticket = 10
-        return (ticket, f"The ticket price for a {age} year old is $10!")
+        return (ticket, f"The ticket price for a {age} year old is ${ticket}!")
 
     def ages_13_to_64(self, age, ticket=0):
         '''Return ticket price and message for ages 13 to 64.'''
         ticket = 15
-        return(ticket, f"The ticket price for {age} year olds is $15!")
+        return(ticket, f"The ticket price for {age} year olds is ${ticket}!")
 
     def ages_65_and_older(self, age, ticket=0):
         '''Return ticket price and message for ages 65 and up.'''
         ticket = 12
-        return(ticket, f"The ticket price for senior citizens is $12!")
+        return(ticket, f"The ticket price for senior citizens is ${ticket}!")
 
     def veteran(self, age, ticket=0):
         '''Return ticket price and message for veterans'''
         ticket = 8
-        return(ticket, f"Thank you for your service. Your ticket price is $8!")
+        return(ticket, 
+            f"Thank you for your service. Your ticket price is ${ticket}!")
 
     def int_input_logic(self, age, tickets=[]):
         '''Return function based on age input and append ticket list.'''
@@ -49,18 +50,17 @@ class PriceCalculator:
             tickets.append(result[0])
             return tickets, result[0], result[1]
         else:
-            return (0, [], "Please enter a valid age.")
+            return ([], 0, "Please enter a valid age.")
 
     def string_input_logic(self, age, tickets=[]):
-        '''While loop break, discount, and invalid response input logic.'''
-        if age.title() == 'Quit':
-            age
-            #break
-        elif age.title() == 'Veteran':
+        '''Veteran and invalid response input logic.'''
+        if age.title() == 'Veteran':
             result = self.veteran(age)
             tickets.append(result[0])
             return tickets, result[0], result[1]
-            #break
+        else:
+            return ([], 0, "Please enter a valid response.")
+
 
     #def while_loop(self, age):
 

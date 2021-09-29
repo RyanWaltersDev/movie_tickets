@@ -425,3 +425,18 @@ The other invalid response test is essentially the same but with the string_inpu
         instance = PriceCalculator()
         response = instance.string_input_logic('blah')
         self.assertEqual(response, ([], 0, "Please enter a valid response."))
+
+Now that we have all of our tests set up, let's run the tests and see how we fare:
+
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.001s
+
+OK
+
+NOTE: An error that we encountered when writing this code was that we had originally returned the ticket list value twice, once in the age method and again in the int_input method.
+
+NOTE_2: Because of this the ticket list was appending twice and causing an error in our test.
+
+Now, let's structure the method that will contain our while loop, we're getting there!
+

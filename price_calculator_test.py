@@ -70,6 +70,12 @@ class PriceCalculatorTest(unittest.TestCase):
         response = instance.string_input_logic('blah')
         self.assertEqual(response, ([], 0, "Please enter a valid response."))
 
+    def test_user_input_prompt(self):
+        '''Check to make sure function returns user input.'''
+        instance = PriceCalculator()
+        response = instance.user_input()
+        self.assertEqual(response, '88')
+
 
 if __name__ == '__main__':
     unittest.main()

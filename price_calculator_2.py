@@ -65,7 +65,7 @@ class PriceCalculator:
         '''Prompt user input and assign to variable'''
         prompt = "\n\nThank you for choosing Runway Theaters!"
         prompt += "\n(Enter 'veteran' to see our discount "
-        "options for service members.')"
+        prompt +="options for service members.')"
         prompt += "\n(If you are finished, please enter 'quit')"
         prompt += "\nEnter the age of the person that this ticket is for: "
         user_input = input(prompt)
@@ -79,8 +79,5 @@ class PriceCalculator:
             #if age.isnumeric() == True:
                 #age = self.int_input_logic()
 
-
-
 instance = PriceCalculator()
-print(instance.user_input())
-
+instance.user_input()

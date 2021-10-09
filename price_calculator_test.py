@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 #from price_calculator import PriceCalculator
 from price_calculator_2 import PriceCalculator
 
@@ -70,7 +71,8 @@ class PriceCalculatorTest(unittest.TestCase):
         response = instance.string_input_logic('blah')
         self.assertEqual(response, ([], 0, "Please enter a valid response."))
 
-    def test_user_input_prompt(self):
+    @patch('price_calculator_2.input', return_value='88')
+    def test_user_input(self, mock_input):
         '''Check to make sure function returns user input.'''
         instance = PriceCalculator()
         response = instance.user_input()

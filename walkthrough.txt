@@ -438,5 +438,79 @@ NOTE: An error that we encountered when writing this code was that we had origin
 
 NOTE_2: Because of this the ticket list was appending twice and causing an error in our test.
 
-Now, let's structure the method that will contain our while loop, we're getting there!
+Now, let's structure the method that will contain our prompt and return our user input, we're getting there!
 
+This method will contain the message that the user will be promped with, as well as ask for their age and return that value.
+
+It shuold be relatively simple, we only need to assign the message to a variable and then pass them through the input function.
+
+Here's what we came up with:
+
+    def user_input(self):
+        '''Prompt user input and assign to variable'''
+        prompt = "\n\nThank you for choosing Runway Theaters!"
+        prompt += "\n(Enter 'veteran' to see our discount "
+        prompt +="options for service members.')"
+        prompt += "\n(If you are finished, please enter 'quit')"
+        prompt += "\nEnter the age of the person that this ticket is for: "
+        user_input = input(prompt)
+        return user_input
+
+The first thing we do is define the method user_input.
+
+We only need to pass it the self argument.
+
+Next we set our welcome string equal to prompt.
+
+Because we want to print multiple lines of string to the terminal for our user prompt, we concatenate the strings to the same variable.
+
+Then we pass the prompt variable through the input method and assign it to user_input.
+
+Finally, we return the results of the users input.
+
+Now that we have this method set up, let's test it to be sure.
+
+Here's what we came up with first:
+
+    def test_user_input_prompt(self):
+        '''Check to make sure function returns user input.'''
+        instance = PriceCalculator()
+        response = instance.user_input()
+        self.assertEqual(response, '88')
+
+This test works, technically.
+
+The only issue is that the input has to run on the terminal and we input the 88 ourselves.
+
+Ideally, we wouldn't have to input 88 every single time we want to run this testing module in perpituity.
+
+The solution that we found is called mocking, which is the process of wrapping a method in a decorator so that it produces an intended result for the purpose of testing.
+
+Decorators allow us to expand the functionality of a method without permanently modifying it.
+
+In this case, we want to use the mock.patch decorator.
+
+First we must make sure to import the proper module so at the top our file in the import statements we add:
+
+from unittest.mock import patch
+
+Next, there's the issue of using the decorator to mock the desired value.
+
+We do this by using the @ symbol and placing the decorator before the method that is being wrapped.
+
+The first argument, is the module that is being mocked, and the second argument can be either a return_value or a side_effect.
+
+In this case, we want to set a specific return value.
+
+Here's what is looks like with the decorator:
+
+    @patch('price_calculator_2.input', return_value='88')
+    def test_user_input(self, mock_input):
+        '''Check to make sure function returns user input.'''
+        instance = PriceCalculator()
+        response = instance.user_input()
+        self.assertEqual(response, '88')
+
+We set the first argument to our module with .input at the end so we tell the decorator what we are mocking: price_calculator_2.input
+
+Second we set the return_value as equal to '88 

@@ -513,4 +513,15 @@ Here's what is looks like with the decorator:
 
 We set the first argument to our module with .input at the end so we tell the decorator what we are mocking: price_calculator_2.input
 
-Second we set the return_value as equal to '88 
+Second we set the return_value as equal to '88', which will be the value that we test against.
+
+With this mocked return value set up, we can run the test the same way as before:
+
+..........
+----------------------------------------------------------------------
+Ran 10 tests in 0.008s
+
+OK
+
+Great! Now its time to begin constructing our while loop method.
+

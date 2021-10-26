@@ -45,16 +45,16 @@ class PriceCalculatorTest(unittest.TestCase):
     def test_int_input_logic(self):
         '''Check tuple return of function.'''
         instance = PriceCalculator()
-        tickets, ticket, string = instance.int_input_logic(12)
-        self.assertEqual(tickets, [10])
+        ticket, string = instance.int_input_logic(12)
+        
         self.assertEqual(ticket, 10)
         self.assertEqual(string, "\nThe ticket price for a 12 year old is $10!")
 
     def test_vet_string_input_logic(self):
         '''Check tuple return of function.'''
         instance = PriceCalculator()
-        tickets, ticket, string = instance.string_input_logic('veteran')
-        self.assertEqual(tickets, [8])
+        ticket, string = instance.string_input_logic('veteran')
+        
         self.assertEqual(ticket, 8)
         self.assertEqual(string, 
             "\nThank you for your service. Your ticket price is $8!")
@@ -63,13 +63,13 @@ class PriceCalculatorTest(unittest.TestCase):
         '''Check tuple when invalid integer entered.'''
         instance = PriceCalculator()
         response = instance.int_input_logic(500)
-        self.assertEqual(response, ([], 0, "\nPlease enter a valid age."))
+        self.assertEqual(response, (0, "\nPlease enter a valid age."))
 
     def test_invalid_string_input_logic(self):
         '''Check tuple when invalid string entered.'''
         instance = PriceCalculator()
         response = instance.string_input_logic('blah')
-        self.assertEqual(response, ([], 0, "\nPlease enter a valid response."))
+        self.assertEqual(response, (0, "\nPlease enter a valid response."))
 
     @patch('price_calculator_2.input', return_value='88')
     def test_user_input(self, mock_input):
@@ -82,7 +82,7 @@ class PriceCalculatorTest(unittest.TestCase):
         '''Check the ticket totaler function'''
         instance = PriceCalculator()
         response = instance.ticket_totaler([10])
-        self.assertEqual(response, "Your current total is $10.70")
+        self.assertEqual(response, ("Your current total is $10.70"))
 
 if __name__ == '__main__':
     unittest.main()

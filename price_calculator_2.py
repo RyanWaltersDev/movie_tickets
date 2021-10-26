@@ -35,42 +35,42 @@ class PriceCalculator:
         return(ticket, 
             f"\nThank you for your service. Your ticket price is ${ticket}!")
 
-    def int_input_logic(self, age, tickets=[]):
+    def int_input_logic(self, age):
         '''Return function based on age input and append ticket list.'''
         age = int(age)
         if age < 3:
             return self.younger_than_3(age)
         elif age >= 3 and age <= 12:
             result = self.ages_3_to_12(age)
-            tickets.append(result[0])
-            return tickets, result[0], result[1]
+
+            return result[0], result[1]
         elif age > 12 and age < 65:
             result = self.ages_13_to_64(age)
-            tickets.append(result[0])
-            return tickets, result[0], result[1]
+            
+            return result[0], result[1]
         elif age >= 65 and age <=120:
             result = self.ages_65_and_older(age)
-            tickets.append(result[0])
-            return tickets, result[0], result[1]
+            
+            return result[0], result[1]
         else:
-            return ([], 0, "\nPlease enter a valid age.")
+            return (0, "\nPlease enter a valid age.")
 
-    def string_input_logic(self, age, tickets=[]):
+    def string_input_logic(self, age):
         '''Veteran and invalid response input logic.'''
         if age.title() == 'Veteran':
             result = self.veteran(age)
-            tickets.append(result[0])
-            return tickets, result[0], result[1]
+
+            return result[0], result[1]
         else:
-            return ([], 0, "\nPlease enter a valid response.")
+            return (0, "\nPlease enter a valid response.")
 
     def full_input_logic(self, user_input):
         '''Int and string input logic together'''
         if user_input.isnumeric() == True:
-            tickets, ticket, str = self.int_input_logic(user_input)
+            ticket, str = self.int_input_logic(user_input)
         else:
-            tickets, ticket, str = self.string_input_logic(user_input)
-        return tickets, ticket, str
+            ticket, str = self.string_input_logic(user_input)
+        return ticket, str
 
 
     def user_input(self):
@@ -83,11 +83,12 @@ class PriceCalculator:
         user_input = input(prompt)
         return user_input
 
-    def ticket_totaler(self, tickets, total=0):
+    def ticket_totaler(self, ticket, tickets=[], total=0):
         '''Calculates the total cost of tickets'''
-        for ticket in range(0, len(tickets)):
-            total += ticket + tickets[ticket]
-            total += total * 0.07
+        tickets.append(ticket)
+        total = sum(tickets)
+        tax = total * 0.07
+        total += tax
         return f"Your current total is ${total:.2f}"
 
 
@@ -100,12 +101,12 @@ class PriceCalculator:
                 print("\n\nThank you for choosing Runway Theaters!")
                 break
             else:
-                tickets, ticket, str = self.full_input_logic(user_input)
+                ticket, str = self.full_input_logic(user_input)
                 print(str)
                 if ticket == 0:
                     continue
             
-            total = self.ticket_totaler(tickets)
+            total = self.ticket_totaler(ticket)
             print(total)
 
             more_ticket = input("Would you like to buy more tickets? [Y/N] ")
@@ -116,5 +117,5 @@ class PriceCalculator:
                 "Enjoy the movie!")
                 active = False
 
-instance = PriceCalculator()
-instance.while_loop()
+#instance = PriceCalculator()
+#instance.while_loop()

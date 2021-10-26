@@ -64,6 +64,15 @@ class PriceCalculator:
         else:
             return ([], 0, "\nPlease enter a valid response.")
 
+    def full_input_logic(self, user_input):
+        '''Int and string input logic together'''
+        if user_input.isnumeric() == True:
+            tickets, ticket, str = self.int_input_logic(user_input)
+        else:
+            tickets, ticket, str = self.string_input_logic(user_input)
+        return tickets, ticket, str
+
+
     def user_input(self):
         '''Prompt user input and assign to variable'''
         prompt = "\n\nThank you for choosing Runway Theaters!"
@@ -87,20 +96,16 @@ class PriceCalculator:
         active = True
         while active:
             user_input = self.user_input()
-            if user_input.isnumeric() == True:
-                tickets, ticket, str = self.int_input_logic(user_input)
-                print(str)
-            elif user_input.title() == 'Quit':
+            if user_input.title() == 'Quit':
                 print("\n\nThank you for choosing Runway Theaters!")
                 break
             else:
-                tickets, ticket, str = self.string_input_logic(user_input)
+                tickets, ticket, str = self.full_input_logic(user_input)
                 print(str)
                 if ticket == 0:
                     continue
             
-            ticket_list = tickets
-            total = self.ticket_totaler(ticket_list)
+            total = self.ticket_totaler(tickets)
             print(total)
 
             more_ticket = input("Would you like to buy more tickets? [Y/N] ")

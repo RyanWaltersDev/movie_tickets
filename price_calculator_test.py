@@ -78,11 +78,20 @@ class PriceCalculatorTest(unittest.TestCase):
         response = instance.user_input()
         self.assertEqual(response, '88')
 
-    def test_ticket_totaler(self):
-        '''Check the ticket totaler function'''
+    def test_ticket_totaler_single_value(self):
+        '''Check ticket totaler functionality when a single value entered.'''
         instance = PriceCalculator()
-        response = instance.ticket_totaler([10])
-        self.assertEqual(response, ("Your current total is $10.70"))
+        response = instance.ticket_totaler(10)
+        self.assertEqual(response, 10.7)
+
+    def test_ticket_totaler_multiple_value(self):
+        '''Check ticket totaler functionality when multiple values entered.'''
+        instance = PriceCalculator()
+        response = instance.ticket_totaler(10)
+        response += instance.ticket_totaler(8)
+        response += instance.ticket_totaler(15)
+        self.assertEqual(response, 35.31)
+
 
 if __name__ == '__main__':
     unittest.main()

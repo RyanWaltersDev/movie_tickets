@@ -85,11 +85,12 @@ class PriceCalculator:
 
     def ticket_totaler(self, ticket, tickets=[], total=0):
         '''Calculates the total cost of tickets'''
+        tickets = []
         tickets.append(ticket)
         total = sum(tickets)
-        tax = total * 0.07
+        tax = total * 0.07 #Sales tax
         total += tax
-        return f"Your current total is ${total:.2f}"
+        return total
 
 
     def while_loop(self):
@@ -107,7 +108,7 @@ class PriceCalculator:
                     continue
             
             total = self.ticket_totaler(ticket)
-            print(total)
+            print(f"Your current total is {total:.2}.)
 
             more_ticket = input("Would you like to buy more tickets? [Y/N] ")
             if more_ticket.title() == 'Y' or more_ticket.title() == 'Yes':

@@ -65,7 +65,7 @@ class PriceCalculator:
             return (0, "\nPlease enter a valid response.")
 
     def full_input_logic(self, user_input):
-        '''Int and string input logic together'''
+        '''Int and string input logic together.'''
         if user_input.isnumeric() == True:
             ticket, str = self.int_input_logic(user_input)
         else:
@@ -74,7 +74,7 @@ class PriceCalculator:
 
 
     def user_input(self):
-        '''Prompt user input and assign to variable'''
+        '''Prompt user input and assign to variable.'''
         prompt = "\n\nThank you for choosing Runway Theaters!"
         prompt += "\n(Service members receive discounted prices! "
         prompt +="Enter 'veteran' to apply discount.)"
@@ -83,9 +83,8 @@ class PriceCalculator:
         user_input = input(prompt)
         return user_input
 
-    def ticket_totaler(self, ticket, tickets=[], total=0):
-        '''Calculates the total cost of tickets'''
-        tickets = []
+    def ticket_totaler(self, ticket, tickets=[]):
+        '''Calculates the total cost of tickets.'''
         tickets.append(ticket)
         total = sum(tickets)
         tax = total * 0.07 #Sales tax
@@ -94,7 +93,7 @@ class PriceCalculator:
 
 
     def while_loop(self):
-        '''While loop that contains input logic'''
+        '''While loop that contains input logic.'''
         active = True
         while active:
             user_input = self.user_input()
@@ -108,7 +107,7 @@ class PriceCalculator:
                     continue
             
             total = self.ticket_totaler(ticket)
-            print(f"Your current total is {total:.2}.)
+            print(f"Your current total is {total:.2f}.")
 
             more_ticket = input("Would you like to buy more tickets? [Y/N] ")
             if more_ticket.title() == 'Y' or more_ticket.title() == 'Yes':

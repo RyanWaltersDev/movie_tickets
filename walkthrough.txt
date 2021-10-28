@@ -525,3 +525,46 @@ OK
 
 Great! Now its time to begin constructing our while loop method.
 
+To simplify the while loop, we first constructed 3 methods that will be crucial to its functionality.
+
+First we combined out string input logic and our int input logic into a single callable method, full_input_logic:
+
+    def full_input_logic(self, user_input):
+        '''Int and string input logic together'''
+        if user_input.isnumeric() == True:
+            ticket, str = self.int_input_logic(user_input)
+        else:
+            ticket, str = self.string_input_logic(user_input)
+        return ticket, str
+
+This method takes the variable user_input, which we will return from the user's input in another function.
+
+Next, we construct an if statement to check and see if the user_input is a number using the isnumeric() method.
+
+If this method returns True, then we call an instance of int_input_logic and assign the returned values to ticket and str respectively.
+
+Otherwise, the method call an instance of string_input_logic, which we set up to handle all non-integer values,
+
+And assign the returned tuple to ticket and str respectively.
+
+Finally, we return the variables ticket and str, which will be used in our while loop.
+
+Our last method before we start with the while_loop method is going to be the ticket_totaler, which will add multiple tickets together if the user orders more than one:
+
+    def ticket_totaler(self, ticket, tickets=[]):
+        '''Calculates the total cost of tickets.'''
+        tickets.append(ticket)
+        total = sum(tickets)
+        tax = total * 0.07 #Sales tax
+        total += tax
+        return total
+
+This method takes one argument, which is the variable ticket.
+
+In the while loop, this will have been returned from the appropriate input function.
+
+The first thing that we want to do is append our list of tickets with the ticket value given to us.
+
+Then we set the value of the variable total equal to the sum of that list, using the sum() function.
+
+Next 
